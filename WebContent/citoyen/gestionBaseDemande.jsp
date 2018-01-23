@@ -42,10 +42,13 @@ if (valider != null && valider.equals("true")) {
 }
 
 	 
-if (ajoutdoc != null) {
+if (ajoutdoc != null && ajoutdoc.equals("true")) {
 /*
 * demande de upload d'un document appel à la page pour le choix du fichier : uploadPage.jsp  
 */
+	%>
+	<jsp:forward page="uploadPage.jsp" />
+	<%
 
 }  
 else
