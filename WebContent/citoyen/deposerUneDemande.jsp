@@ -10,11 +10,12 @@
   </head>
   <body   class= "CaseGrise" >
   <%@ include file="accesmenuFiche.jspf" %>  
-<% 
+<%
 String nom= (String)session.getAttribute("nom");
 String identifiant= (String)session.getAttribute("identifiant");
 String dateDemande = laDate.getJour() + "/" + laDate.getMois() + "/" + laDate.getAnnee(); 
 String dateDemandemysql = laDate.getAnnee()+ "/" + laDate.getMois() + "/" + laDate.getJour();
+System.out.format("deposerUneDemande, dateDemandemysql=%s\n", dateDemandemysql);
 
 %>
 <%@ include file="ligneIdentification.jspf" %> 
@@ -32,7 +33,36 @@ String dateDemandemysql = laDate.getAnnee()+ "/" + laDate.getMois() + "/" + laDa
 * vous passez aussi en paramètre : dateDemande et dateDemandemysql
 
  -->
-
+ 
+<form action="gestionBaseDemande.jsp" method="POST">
+<table width="800" class="CaseGrise1" style ="border:0px">
+	<tr>
+		<td>
+			Objet <input type="text" name="objet" pattern=".{1,100}">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Description
+		</td>
+	<tr>
+	<tr>
+		<td>
+			<textarea rows="15" cols="100" name="description">
+			</textarea>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<input type="hidden" name="dateDemande" value="<%= dateDemande %>" />
+			<input type="hidden" name="dateDemandemysql" value="<%= dateDemandemysql %>" />
+			<button type="submit" name="valider" value="true" style="width: 90px">valider</button>
+			<button type="submit" name="valider" value="false" style="width: 90px">abandonner</button>
+			<button type="submit" name="ajoutdoc" value="true" style="width: 90px">validez en ajoutant un document</button>
+		</td>
+	</tr>
+</table>
+</form>
 
  <!--
 *partie 2
@@ -43,6 +73,7 @@ String dateDemandemysql = laDate.getAnnee()+ "/" + laDate.getMois() + "/" + laDa
   (pdf, word, excel, jpg, etc..) à la  fiche.
 *
 -->
+
 
 
 
