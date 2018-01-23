@@ -69,7 +69,7 @@
       }
    // si la personne est trouvée, l'attibut rset contient ses caractéristiques
        public boolean  recherchePersonne() {
-		 System.out.println(" recherchePersonne nom "  +nom + " passe " + motPasse+ " mail "+ mail);
+		 System.out.println(" recherchePersonne nom ["  +nom + "] passe [" + motPasse+ "] mail ["+ mail + "]");
 		 String motPassebase = null;
 		 boolean trouve = false;
          try {
@@ -89,7 +89,8 @@
          }
 	  return trouve;
      
-       } 
+       }
+       
 		
       public void inscrireUtilisateur() {
          try {
@@ -106,6 +107,45 @@
                System.out.println(" -------- probleme inscrireUtilisateur " + E.getClass().getName() );
                E.printStackTrace();
             }
+      }
+      
+      public HashMap<String, String> rechercheToutesInfoPersonne() {
+ 		 System.out.println(" recherche toutes information de la Personne nom ["  +nom + "] passe [" + motPasse+ "] mail ["+ mail + "]");
+ 		 HashMap<String, String> info = new HashMap<String, String>();
+ 		 String motPassebase = null;
+ 		 boolean trouve = false;
+ 		 List<String> filed = Arrays.asList("id", "nom", "prenom", "identifiant", "mail", "fixe", "mobile", "rue", "ville", "fonction");
+ 		 
+          try {
+             pstmt = connection.prepareStatement("select * from personne where identifiant=?");
+             pstmt.setString(1, identifiant);
+             rset = pstmt.executeQuery();
+             while (  !trouve && rset.next()) { 
+             	motPassebase = rset.getString("motPasse");
+             	if (BCrypt.checkpw(motPasse, motPassebase)) {
+             		trouve = true;
+             		System.out.println(rset.getString("motPasse"));
+             		filed.forEach((key) -> {
+             			try {
+							info.put(key, rset.getString(key));
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+             		});
+             		
+             	}
+             }
+          }
+          catch (Exception E) {         
+                System.out.println(" -------- probleme recherche " + E.getClass().getName() );
+                E.printStackTrace();
+          }
+//          info.forEach((k,v)-> {
+//        	  System.out.format("%s -> %s", k, v);
+//          });
+          
+          return info;
       }
 
    // envoi d'un mail si smpt ne demande pas d'identification

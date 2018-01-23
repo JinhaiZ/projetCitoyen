@@ -19,11 +19,18 @@
  <!--  avant l'identification on efface toutes les données des sessions précédentes -->
  
 <!-- 
-****   Affichage d'un message si le parametre "erreur" est présent
-****   Affichage d'un message si le parametre "finsession" est présent
+   Affichage d'un message si le parametre "erreur" est présent
+   Affichage d'un message si le parametre "finsession" est présent
 -->
  
- 
+<%
+    if (request.getParameter("erreur") != null) {
+    	out.println("<p style='color:red;'> Mauvaise Identification.</p>");
+    } 
+	if (request.getParameter("finsession") != null) {
+		out.println("<p style='color:red;'> Mauvaise Session.</p>");
+	} 
+%>
  
 
 
@@ -39,17 +46,18 @@
 ****   un  "input text" pour l'identifiant, mini  4 caractères maxi 10 caractères
         un "input password" pour le mot de passe
 -->
- 
-
-
-
-<!-- 
-****       un  "input text"  pour le nom   mini  4 caractères maxi 10 caractères
+	L'identifiant: <input type="text" name="identifiant" pattern=".{4,10}">
+	<br />
+ 	Le mot de pass: <input type="text" name="motPasse">
+	<br />
+<!-- un  "input text"  pour le nom   mini  4 caractères maxi 10 caractères
            un  "input email" un pour le mail, avec vérification de la syntaxe, maxi 30 caractères
-           expression régulière possible   "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"          
--->
-
-
+           expression régulière possible   "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"-->
+	
+	Le nom: <input type="text" name="nom" pattern=".{4,10}">
+	<br />
+	Le mail: <input type="text" name="mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+	<br />
  <tr> 
     <td colspan="2"> <button name ="connexion" type="submit" 
              value="se connecter"style="width: 120px"> se connecter </button> </td> 
