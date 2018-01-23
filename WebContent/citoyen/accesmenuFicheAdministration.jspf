@@ -1,0 +1,11 @@
+<%@ page import="java.util.*"%>
+ <table  class="Casebleu" style="border: 0px; margin:0 ; padding:0px; width:800;" >
+   <tr> 
+   <td colspan="3">
+  <table class="Casebleu4"  style="border: 0px; margin:0 ; padding:0px;" >
+ <!--    en tête pour l'administrateur -->
+
+ </table>	
+ </td>
+</tr>
+</table>
