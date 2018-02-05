@@ -6,36 +6,20 @@ import javax.mail.*;
 import javax.mail.internet.*;
 import java.sql.*;
 
-public class GereFiche {
+public class GereDocument {
 	// les 4 propriétés
-	private String demandeur, objet, description, datedemande;
+	private String nom, proprietaire;
 
 	static Connection connection, connectionPret = null;
 	private ResultSet rset = null;
 	private PreparedStatement pstmt;
 
-	public void setDemandeur(String demandeur) {
-		this.demandeur = demandeur;
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
 
-	public void setObjet(String objet) {
-		this.objet = objet;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public void setDatedemande(String datedemande) {
-		this.datedemande = datedemande;
-	}
-	
-	public String getObjet() {
-		return this.objet;
-	}
-	
-	public String getDescription() {
-		return this.description;
+	public void setProprietaire(String proprietaire) {
+		this.proprietaire = proprietaire;
 	}
 
 	public Connection getConnection() {
@@ -58,16 +42,13 @@ public class GereFiche {
 		return connection;
 	}
 
-
-	public void inscrireFiche() {
+	public void inscrireDocument() {
 		try {
 			pstmt = connection
-					.prepareStatement("insert into fiche(demandeur, objet, description, datedemande) VALUES (?,?,?,?)");
-			pstmt.setString(1, demandeur);
-			pstmt.setString(2, objet);
-			pstmt.setString(3, description);
-			pstmt.setString(4, datedemande);
-			//System.out.println("pstmt="+pstmt.toString());	
+					.prepareStatement("insert into document(nom, proprietaire) VALUES (?,?)");
+			pstmt.setString(1, nom);
+			pstmt.setString(2, proprietaire);
+			System.out.println("pstmt="+pstmt.toString());	
 			pstmt.executeUpdate();
 		} catch (Exception E) {
 			System.out.println(" -------- probleme inscrireFiche " + E.getClass().getName());

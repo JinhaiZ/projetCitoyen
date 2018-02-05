@@ -39,6 +39,9 @@ if (valider != null && valider.equals("true")) {
 	gerelesFiche.setDescription(description);
 	gerelesFiche.setDatedemande(dateDemandemysql);
 	gerelesFiche.inscrireFiche();
+	%>
+	<jsp:forward page="envoieMail.jsp" />
+	<%
 }
 
 	 

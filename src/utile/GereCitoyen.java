@@ -52,7 +52,34 @@
 	 
 	    public ResultSet getRset () {
 	    	 return rset;
-	    }
+	   }
+	    
+	   public Fiche getLastFiche() {
+		   String demandeur = null;
+           String mailDemandeur = null;
+           String objet = null;
+           String description = null;
+		   try {
+	            pstmt = connection.prepareStatement("select p.identifiant, p.mail, f.objet, f.description from personne p left join fiche f on f.demandeur = p.id where f.id = (select max(id) from fiche)");
+	            rset = pstmt.executeQuery();
+	            boolean trouve = false;
+	            
+	            while ( !trouve && rset.next()) { 
+	            	demandeur = rset.getString("identifiant");
+	            	mailDemandeur = rset.getString("mail");
+	            	objet = rset.getString("objet");
+	            	description = rset.getString("description");
+	            	trouve = true;
+	            }
+	            System.out.println("demandeur: " + demandeur);
+	            
+	         }
+	         catch (Exception E) {         
+	               System.out.println(" -------- probleme recherche " + E.getClass().getName() );
+	               E.printStackTrace();
+	         }
+		   return new Fiche(objet, description, demandeur, mailDemandeur);
+	   }
 	 	 
        public Connection ouverture(String base) {
          try {

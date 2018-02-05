@@ -58,7 +58,7 @@ System.out.format("deposerUneDemande, dateDemandemysql=%s\n", dateDemandemysql);
 			<input type="hidden" name="dateDemandemysql" value="<%= dateDemandemysql %>" />
 			<button type="submit" name="valider" value="true" style="width: 90px">valider</button>
 			<button type="submit" name="valider" value="false" style="width: 90px">abandonner</button>
-			<button type="submit" name="ajoutdoc" value="true" style="width: 90px">validez en ajoutant un document</button>
+			<button type="submit" name="ajoutdoc" value="true">validez en ajoutant un document</button>
 		</td>
 	</tr>
 </table>
