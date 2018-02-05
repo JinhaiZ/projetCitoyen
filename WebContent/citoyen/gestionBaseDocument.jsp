@@ -31,4 +31,11 @@ gerelesDocument.inscrireDocument();
 
 System.out.println("docmise: "+docmise);
 System.out.println("id: "+id);
+
+%>
+<jsp:forward page="envoieMail.jsp">
+  <jsp:param name="docmise" value="<%=docmise%>" ></jsp:param>
+</jsp:forward>
+<%
+
 %>

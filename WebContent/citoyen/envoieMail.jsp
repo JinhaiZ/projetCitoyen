@@ -2,8 +2,26 @@
 <%@ page import="utile.*"%>
 <%@ page import="java.sql.*"%>
 <%@ include file="ouvreBase2.jsp"%>
-<jsp:useBean id="gerelesCitoyen" class="utile.GereCitoyen"
-	scope="session" />
+<jsp:useBean id="gerelesCitoyen" class="utile.GereCitoyen" scope="session" />
+<%! 
+public void sendMail(String docmise, String host, String port, Fiche fiche, String identifiantMail, String mdp){
+	host = (host == null) ? "z.imt.fr" : host;
+	port = (port == null) ? "587" : port;
+
+	String object = docmise != null ? fiche.objet + docmise : fiche.objet;
+	String contenu = fiche.contenu;
+	String demandeur = fiche.demandeur;
+	String mailDemandeur = fiche.mailDemandeur;
+	
+	// message for debug
+	System.out.println("DB object:" + object);
+	System.out.println("DB contenu:" + contenu);
+	System.out.println("DB demandeur: " + demandeur);
+	System.out.println("DB mailDemandeur: " + mailDemandeur);
+	utile.GereCitoyen.envoieMailSecure(object, identifiantMail, mailDemandeur, contenu, mdp, host, port);
+}
+%>
+
 <%
 	/*
 	
@@ -51,59 +69,52 @@
 	    or dans la première requête il y avait selon le cas un paramètre " nomDocument". 
 	
 	Il faut donc faire suivre cette valeur ("partie "hidden")*/
-
+	String docmise = request.getParameter("docmise");
 	String identifiantMail = (String) session.getAttribute("identifiantMail");
 	String mdp = (String) session.getAttribute("motPasseMail");
 	String host = (String) session.getAttribute("host");
 	String port = (String) session.getAttribute("port");
 
 	if ((identifiantMail == null || mdp == null) && request.getParameter("envoyeurconnu") == null) {
-%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>EnvoieMail</title>
-<link type="text/css" href="../style/deco.css" rel="stylesheet">
-<style type="text/css">
-td {
-	width: 300px;
-}
-</style>
-<form name="envoiMail" method="POST" action="envoieMail.jsp">
-	<table style="width: 500;" class="Casebleu1">
-		<tr>
-			<td colspan="2"><strong>Remplir les informations avant</strong></td>
-		</tr>
-		L'identifiant Mail:
-		<input type="text" name="identifiantMail">
-		<br /> Le mot de passe Mail:
-		<input type="password" name="motPasseMail" pattern=".{1,100}">
-		<br /> Host:
-		<input type="text" value="z.imt.fr" name="host">
-		<br /> Port:
-		<input type="text" value="587" name="port">
-		<br />
-
-		<tr>
-			<td colspan="2">
-				<button name="envoyeurconnu" type="submit" value="se connecter"
-					style="width: 120px">Envoyer</button>
-			</td>
-		</tr>
-	</table>
-</form>
-</body>
-
-
-
-
-
-</html>
-
+		%>
+		<!DOCTYPE html>
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>EnvoieMail</title>
+		<link type="text/css" href="../style/deco.css" rel="stylesheet">
+		<style type="text/css">
+		td {
+			width: 300px;
+		}
+		</style>
+		<form name="envoiMail" method="POST" action="envoieMail.jsp">
+			<table style="width: 500;" class="Casebleu1">
+				<tr>
+					<td colspan="2"><strong>Remplir les informations avant</strong></td>
+				</tr>
+				L'identifiant Mail:
+				<input type="text" name="identifiantMail">
+				<br /> Le mot de passe Mail:
+				<input type="password" name="motPasseMail" pattern=".{1,100}">
+				<br /> Host:
+				<input type="text" value="z.imt.fr" name="host">
+				<br /> Port:
+				<input type="text" value="587" name="port">
+				<br />
+				<tr>
+					<td colspan="2">
+						<button name="envoyeurconnu" type="submit" value="se connecter"
+							style="width: 120px">Envoyer</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+		</body>
+		</html>	
 <%
 	} else if ((identifiantMail == null || mdp == null) && request.getParameter("envoyeurconnu") != null) {
-		System.out.println("set sessions for sending mail");
+		//System.out.println("set sessions for sending mail");
 
 		identifiantMail = request.getParameter("identifiantMail");
 		mdp = request.getParameter("motPasseMail");
@@ -116,41 +127,15 @@ td {
 		session.setAttribute("port", port);
 
 		// send mail
-		host = (host == null) ? "z.imt.fr" : host;
-		port = (port == null) ? "587" : port;
-
 		Fiche fiche = gerelesCitoyen.getLastFiche();
-		String object = fiche.objet;
-		String contenu = fiche.contenu;
-		String demandeur = fiche.demandeur;
-		String mailDemandeur = fiche.mailDemandeur;
-
-		System.out.println("DB object:" + object);
-		System.out.println("DB contenu:" + contenu);
-		System.out.println("DB demandeur: " + demandeur);
-		System.out.println("DB mailDemandeur: " + mailDemandeur);
-
-		utile.GereCitoyen.envoieMailSecure(object, identifiantMail, mailDemandeur, contenu, mdp, host, port);
-	} else {
-		System.out.println("all in sessions for sending mail");
-		// send mail
-		host = (host == null) ? "z.imt.fr" : host;
-		port = (port == null) ? "587" : port;
-
-		Fiche fiche = gerelesCitoyen.getLastFiche();
-		String object = fiche.objet;
-		String contenu = fiche.contenu;
-		String demandeur = fiche.demandeur;
-		String mailDemandeur = fiche.mailDemandeur;
-
-		System.out.println("DB object:" + object);
-		System.out.println("DB contenu:" + contenu);
-		System.out.println("DB demandeur: " + demandeur);
-		System.out.println("DB mailDemandeur: " + mailDemandeur);
-		
+		sendMail(docmise, host, port, fiche, identifiantMail, mdp);
 		System.out.println("mdp: " + mdp);
-
-		utile.GereCitoyen.envoieMailSecure(object, identifiantMail, mailDemandeur, contenu, mdp, host, port);
+	} else {
+		//System.out.println("all in sessions for sending mail");
+		// send mail
+		Fiche fiche = gerelesCitoyen.getLastFiche();
+		sendMail(docmise, host, port, fiche, identifiantMail, mdp);
+		System.out.println("mdp: " + mdp);
 	}
 
 	/*

@@ -34,7 +34,7 @@ System.out.format("deposerUneDemande, dateDemandemysql=%s\n", dateDemandemysql);
 
  -->
  
-<form action="gestionBaseDemande.jsp" method="POST">
+<form action="gestionBaseDemande.jsp" method="get">
 <table width="800" class="CaseGrise1" style ="border:0px">
 	<tr>
 		<td>
@@ -48,8 +48,7 @@ System.out.format("deposerUneDemande, dateDemandemysql=%s\n", dateDemandemysql);
 	<tr>
 	<tr>
 		<td>
-			<textarea rows="15" cols="100" name="description">
-			</textarea>
+			<textarea rows="15" cols="100" name="description"></textarea>
 		</td>
 	</tr>
 	<tr>
