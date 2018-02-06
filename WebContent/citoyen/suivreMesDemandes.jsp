@@ -1,6 +1,9 @@
 <%@ page import="java.util.*"%>
 <%@ page import="utile.DateBean"%>
 <%@ page import="java.sql.*"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="ouvreBase1.jsp" %>  
+
 <jsp:useBean id="laDate" class="utile.DateBean" scope="session" />
 <!DOCTYPE HTML >
 <html>
@@ -19,6 +22,9 @@ String dateDemande = laDate.getJour() + "/" + laDate.getMois() + "/" + laDate.ge
 %>
 <%@ include file="ligneIdentification.jspf" %> 
 
+
+
+
 <!-- 
 *	 une ligne par fiche, 
 *   cette  ligne comprend : le numéro de la fiche (id), l'objet de la fiche, 
@@ -27,10 +33,45 @@ String dateDemande = laDate.getJour() + "/" + laDate.getMois() + "/" + laDate.ge
 *	Avec le numéro de la fiche vous mettez 
 *          un lien vers la page d'affichage du contenu de la fiche : ficheCitoyenne.jsp
 -->
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
 
- 
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
 
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
 
+<sql:query var="fiches" dataSource="${conn1}">
+	select * from fiche
+</sql:query>
+
+<table>
+  <tr>
+    <th>Numéro</th>
+    <th>Objet</th>
+    <th>Date de création</th>
+  </tr>
+  <c:forEach items="${fiches.rows}" var="row"> 
+  <tr>
+	<c:url var="url" scope="session" value="ficheCitoyenne.jsp">
+   		<c:param name="numeroDemande" value="${row.id}" />
+    </c:url>
+    <td><a href="${url}">${row.id}</a></td>
+    <td>${row.objet}</td>
+    <td>${row.datedemande}</td>
+  </tr>
+</c:forEach>
+</table>
 
   </body>
 </html>
