@@ -10,28 +10,31 @@
 
 <c:set var = "ajoutdoc" value="${param.ajoutdoc}" />
 <c:set var = "valider" value="${param.valider}" />
-<c:set var = "objet" value="${requestScope.objet}" />
-<c:set var = "description" value="${requestScope.description}" />
-<c:set var = "dateDemande" value="${requestScope.dateDemande}" />
+<c:set var = "objet" value="${param.objet}" />
+<c:set var = "description" value="${param.description}" />
+<c:set var = "dateDemande" value="${param.dateDemande}" />
 
-<%System.out.println(pageContext.findAttribute("valider")); %>
+
 <c:if test = "${not empty valider && valider == 'false'}">
 <jsp:forward page="mesInformationsPersonnelles.jsp" />
 </c:if>
 
-<c:set var="id" value="id" scope="session"/>
-<c:set var = "dateDemandemysql" value="${requestScope.dateDemandemysql}" />
+<c:set var="id" value="${sessionScope.id}" scope="session"/>
+<%System.out.println(pageContext.findAttribute("description")); %>
+<c:set var = "dateDemandemysql" value="${param.dateDemandemysql}" />
 
 <c:if test = "${not empty valider && valider == 'true'}">
 <c:out value="${gerelesFiche.ouverture('demandecitoyen')}" />
 <c:out value="${gerelesFiche.setDemandeur(id)}" />
 <c:out value="${gerelesFiche.setObjet(objet)}" />
+<c:out value="${gerelesFiche.setDescription(description)}" />
+<c:out value="${gerelesFiche.setDatedemande(dateDemandemysql)}" />
 <c:out value="${gerelesFiche.inscrireFiche()}" />
 <jsp:forward page="envoieMail.jsp" />
 </c:if>
 
 <c:if test = "${not empty ajoutdoc && ajoutdoc == 'true'}">
-<jsp:forward page="mesInformationsPersonnelles.jsp" />
+<jsp:forward page="uploadPage.jsp" />
 </c:if>
 
 <c:if test = "${empty ajoutdoc || ajoutdoc != 'true'}">

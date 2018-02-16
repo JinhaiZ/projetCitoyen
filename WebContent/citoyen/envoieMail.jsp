@@ -12,13 +12,13 @@ public void sendMail(String docmise, String host, String port, Fiche fiche, Stri
 	String contenu = fiche.contenu;
 	String demandeur = fiche.demandeur;
 	String mailDemandeur = fiche.mailDemandeur;
-	
+	String signature = "/nIMT Atlantique";
 	// message for debug
 	System.out.println("DB object:" + object);
 	System.out.println("DB contenu:" + contenu);
 	System.out.println("DB demandeur: " + demandeur);
 	System.out.println("DB mailDemandeur: " + mailDemandeur);
-	utile.GereCitoyen.envoieMailSecure(object, identifiantMail, mailDemandeur, contenu, mdp, host, port);
+	utile.GereCitoyen.envoieMailSecure(object, identifiantMail, mailDemandeur, contenu, mdp, host, port, signature);
 }
 %>
 
@@ -94,13 +94,13 @@ public void sendMail(String docmise, String host, String port, Fiche fiche, Stri
 					<td colspan="2"><strong>Remplir les informations avant</strong></td>
 				</tr>
 				L'identifiant Mail:
-				<input type="text" name="identifiantMail">
+				<input type="text" name="identifiantMail" />
 				<br /> Le mot de passe Mail:
-				<input type="password" name="motPasseMail" pattern=".{1,100}">
+				<input type="password" name="motPasseMail" pattern=".{1,100}" />
 				<br /> Host:
-				<input type="text" value="z.imt.fr" name="host">
+				<input type="text" value="z.imt.fr" name="host" />
 				<br /> Port:
-				<input type="text" value="587" name="port">
+				<input type="text" value="587" name="port" />
 				<br />
 				<tr>
 					<td colspan="2">
@@ -113,6 +113,12 @@ public void sendMail(String docmise, String host, String port, Fiche fiche, Stri
 		</body>
 		</html>	
 <%
+/*
+	2) Si à l'appel de la page,  
+	   les variables de session qui représentent  l'adresse mail et le mot de passe de l'expéditeur: 
+		   ne sont pas connues, mais que vous revenez du formulaire, (envoyeurconnu présent) :
+	   Vous mettez les variables (adresseMail, motPasse, serveur, port) en session.
+*/
 	} else if ((identifiantMail == null || mdp == null) && request.getParameter("envoyeurconnu") != null) {
 		//System.out.println("set sessions for sending mail");
 
@@ -129,36 +135,36 @@ public void sendMail(String docmise, String host, String port, Fiche fiche, Stri
 		// send mail
 		Fiche fiche = gerelesCitoyen.getLastFiche();
 		sendMail(docmise, host, port, fiche, identifiantMail, mdp);
-		System.out.println("mdp: " + mdp);
+		
+		// redirect to home page
+%>
+		<jsp:forward page="mesInformationsPersonnelles.jsp" />
+<%
+/*
+3) Si les variables de session qui représentent  l'adresse mail et le mot de passe de l'expéditeur 
+sont connues (vous venez de les créer ou vous les avez créées lors d'un autre appel), 
+vous pouvez envoyer le mail.
+
+
+Envoi du mail :
+     Recherche dans la base de la dernière fiche de la personne connectée
+     Recherche des caractéristiques de cette fiche et du mail de la personne connectée
+
+     Le mail contient en objet, l'objet de la fiche.
+     et en contenu, le texte que vous voulez et le champ description de la fiche
+	 S'il y a eu un document avec la fiche, le nom de ce document
+
+*/
 	} else {
 		//System.out.println("all in sessions for sending mail");
 		// send mail
 		Fiche fiche = gerelesCitoyen.getLastFiche();
 		sendMail(docmise, host, port, fiche, identifiantMail, mdp);
-		System.out.println("mdp: " + mdp);
+		// redirect to home page
+		%>
+		<jsp:forward page="mesInformationsPersonnelles.jsp" />
+		<%
 	}
 
-	/*
-	2) Si à l'appel de la page,  
-	   les variables de session qui représentent  l'adresse mail et le mot de passe de l'expéditeur: 
-		   ne sont pas connues, mais que vous revenez du formulaire, (envoyeurconnu présent) :
-	   Vous mettez les variables (adresseMail, motPasse, serveur, port) en session.
-	   
-	
-	
-	3) Si les variables de session qui représentent  l'adresse mail et le mot de passe de l'expéditeur 
-	sont connues (vous venez de les créer ou vous les avez créées lors d'un autre appel), 
-	vous pouvez envoyer le mail.
-	
-	
-	
-	Envoi du mail :
-	     Recherche dans la base de la dernière fiche de la personne connectée
-	     Recherche des caractéristiques de cette fiche et du mail de la personne connectée
-	
-	     Le mail contient en objet, l'objet de la fiche.
-	     et en contenu, le texte que vous voulez et le champ description de la fiche
-	S'il y a eu un document avec la fiche, le nom de ce document
-	
-	*/
+
 %>

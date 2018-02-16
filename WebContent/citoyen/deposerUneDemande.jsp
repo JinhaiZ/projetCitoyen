@@ -6,9 +6,14 @@
   <head> 
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Demande Citoyenne Mairie Loc-Maria-Plouzané</title>
-     <link type="text/css" href="../style/deco.css" rel="stylesheet" >  
+  <link type="text/css" href="../style/deco.css" rel="stylesheet" />
+  <script type="text/javascript" language="javascript">
+	function ClearForm(){
+    document.MyForm.reset();
+	}
+  </script>
   </head>
-  <body   class= "CaseGrise" >
+  <body   class= "CaseGrise" onload="ClearForm()">
   <%@ include file="accesmenuFiche.jspf" %>  
 <%
 String nom= (String)session.getAttribute("nom");
@@ -34,7 +39,7 @@ System.out.format("deposerUneDemande, dateDemandemysql=%s\n", dateDemandemysql);
 
  -->
  
-<form action="gestionBaseDemande.jsp" method="get">
+<form action="gestionBaseDemande.jsp" method="get" name="MyForm">
 <table width="800" class="CaseGrise1" style ="border:0px">
 	<tr>
 		<td>
@@ -45,7 +50,7 @@ System.out.format("deposerUneDemande, dateDemandemysql=%s\n", dateDemandemysql);
 		<td>
 			Description
 		</td>
-	<tr>
+	</tr>
 	<tr>
 		<td>
 			<textarea rows="15" cols="100" name="description"></textarea>

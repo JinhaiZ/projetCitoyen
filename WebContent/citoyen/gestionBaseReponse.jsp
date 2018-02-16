@@ -17,12 +17,13 @@ String objet = null;
 String description =null;
 
 String valider = request.getParameter("valider");
-int id = ((Integer)(session.getAttribute("id"))).intValue();
+int id = Integer.parseInt((String)session.getAttribute("id"));
 String mail=(String)session.getAttribute("mail");
 int numFiche  =  (request.getParameter("numFiche")!=null)? Integer.parseInt(request.getParameter("numFiche")):0;
 int numDemande  =  (request.getParameter("numDemande")!=null)? Integer.parseInt(request.getParameter("numDemande")):0;
 int num=0, num2=0;
-
+System.out.println(response);
+System.out.println(valider);
 pstmt= conn1.prepareStatement
     ("SELECT  mail, objet, description FROM personne , fiche  where fiche.demandeur = personne.id and fiche.id=?"); 
 pstmt.setInt(1,numFiche);
@@ -35,7 +36,9 @@ if (rset.next()) {
 
   // envoi mail au citoyen 
   String objetMail ="Réponse à votre  fiche Citoyenne ";
-  String mailMairie = "ogor.robert@gmail.com";
+  String mailMairie = "jinhai.zhou@imt-atlantique.net";
+  String motpasse = "******"; // besoin mot de passe en claire
+  String signature = "Mail de Mairie";
   String contenu = "Bonjour \r\n";
   contenu = contenu + "voici le contenu et la reponse  de votre fiche, elle a été enregistée sous le numéro " + numFiche +"\r\n";
   contenu = contenu + "objet : " + objet +"\r\n";
@@ -43,7 +46,7 @@ if (rset.next()) {
   contenu = contenu + "reponse : " + reponse +"\r\n";
   contenu = contenu + "Si nous apportons une autre reponse vous en serez averti"  +"\r\n";
   contenu = contenu + "Cordialement, La mairie";
-  GereCitoyen.envoieMail(objetMail, mailMairie, mailCitoyen, contenu);
+  GereCitoyen.envoieMailSecure(objetMail, mailMairie, mailCitoyen, contenu, motpasse, "z.imt.fr", "587", signature);
 
   /*
 // en scriplet  inscription de la reponse par un administrateur et retour administration  
@@ -63,7 +66,7 @@ if (rset.next()) {
   <!--  en jstl  inscription de la reponse par un administrateur et retour administration  -->
  
   <c:if test="${(param.valider != null) and (param.reponse != null) }" >
- <sql2:update var="result" dataSource="DonneesBase">
+  <sql2:update var="result" dataSource="DonneesBase">
     update  fiche set reponse="${param.reponse}"  where id= ${param.numFiche}
  </sql2:update>
   <c:redirect url="gereDemandeCitoyen.jsp"/>

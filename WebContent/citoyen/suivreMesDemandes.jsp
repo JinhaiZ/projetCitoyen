@@ -10,7 +10,12 @@
 <head> 
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Demande Citoyenne Mairie Loc-Maria-Plouzané</title>
-     <link type="text/css" href="../style/deco.css" rel="stylesheet" >
+  <link type="text/css" href="../style/deco.css" rel="stylesheet" >
+  <style>
+	tr:nth-child(even) {
+    background-color: #dddddd;
+	}
+  </style>
 </head>
  <body   class= "CaseGrise" >
 
@@ -33,29 +38,13 @@ String dateDemande = laDate.getJour() + "/" + laDate.getMois() + "/" + laDate.ge
 *	Avec le numéro de la fiche vous mettez 
 *          un lien vers la page d'affichage du contenu de la fiche : ficheCitoyenne.jsp
 -->
-<style>
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
 
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
-</style>
 
 <sql:query var="fiches" dataSource="${conn1}">
 	select * from fiche
 </sql:query>
 
-<table>
+<table  width="600">
   <tr>
     <th>Numéro</th>
     <th>Objet</th>

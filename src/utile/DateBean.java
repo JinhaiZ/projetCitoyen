@@ -1,5 +1,6 @@
    package utile;
    import java.util.*;
+   import java.text.SimpleDateFormat;
     public class DateBean {    
               
       GregorianCalendar laDate = new GregorianCalendar(); 
@@ -18,7 +19,12 @@
       }  
        public int getAnnee() {                       
          return   laDate.get(Calendar.YEAR);     
-      }  
+      }
+       public String getDateTime() {
+    	   Date dt = new Date();
+    	   SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	   return sdf.format(dt);
+       }
        public  static  Date leVendredi ( int semaine, int anne) {
          Date madate;
          int jouravant, semaineNC, jours; 

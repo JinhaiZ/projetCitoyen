@@ -1,7 +1,7 @@
 <%@ page import="java.util.*"%>
 <%@ page import="java.sql.*"%>
 <jsp:useBean id="gerelesCitoyen" class="utile.GereCitoyen"  scope="session" />
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!--- 
   **** les 4 propriétés du bean nom, identifiant, mail, motPasse doivent être initialisées 
         par la page, en utilisant le "jsp:setProperty "
@@ -41,7 +41,7 @@
 			    session.setAttribute(entry.getKey(), entry.getValue());
 			}
 			%>
-			<jsp:forward page="mesInformationsPersonnelles.jsp" />
+			<c:redirect url="citoyen/mesInformationsPersonnelles.jsp" />
 			<%
 		} else {
 			// les champs de nom et mail ne sont pas present
@@ -64,11 +64,12 @@
 		if(monFonction.equals("citoyen")) {
 			// appel mesInformationsPersonnelles.jsp 
 		%>
-			<jsp:forward page="mesInformationsPersonnelles.jsp" />
+			<c:redirect url="citoyen/mesInformationsPersonnelles.jsp" />
 		<%}
 		if(monFonction.equals("administrateur")) {
-			// appel gereDemandeCitoyen.jsp %>
-			<jsp:forward page="gereDemandeCitoyen.jsp" />
+			// appel gereDemandeCitoyen.jsp 
+		%>
+			<c:redirect url="citoyen/gereDemandeCitoyen.jsp" />
 		<%}
 	}
 	

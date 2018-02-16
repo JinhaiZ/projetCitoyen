@@ -5,7 +5,7 @@
    import  javax.mail.internet.*;
    import  java.sql.*;
     public class GereCitoyen {
-    //les  4 propriétés
+    //les  4 proprié– é–Ÿ
       private String nom,  identifiant, mail, motPasse ;
    
      static Connection connection, connectionPret=null;
@@ -94,7 +94,7 @@
             }	
          return connection;
       }
-   // si la personne est trouvée, l'attibut rset contient ses caractéristiques
+   // si la personne est trouvé–‘, l'attibut rset contient ses caracté–žistiques
        public boolean  recherchePersonne() {
 		 System.out.println(" recherchePersonne nom ["  +nom + "] passe [" + motPasse+ "] mail ["+ mail + "]");
 		 String motPassebase = null;
@@ -199,7 +199,7 @@ try {
       
    // envoi d'un mail avec smpt qui  demande  l'identification  en TLS
       public static void envoieMailSecure( String objet, String deLaPart, String pour , String contenu, 
-          String motpasse, String host, String port) {
+          String motpasse, String host, String port, String signature) {
 
         try {     
           String to = pour;
@@ -221,9 +221,9 @@ try {
           message.setFrom(new InternetAddress(deLaPart));
           message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
           message.setSubject(objet);
-          message.setText(contenu);
+          message.setText(contenu + signature);
          Transport.send(message);
-          	System.out.println("Message envoyé.....");
+          	System.out.println("Message envoyï¿½.....");
       } 
       catch (MessagingException e) { 
       	throw new RuntimeException(e);

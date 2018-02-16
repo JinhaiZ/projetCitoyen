@@ -1,11 +1,28 @@
 <%@ page import="java.util.*"%>
- <table  class="Casebleu" style="border: 0px; margin:0 ; padding:0px; width:800;" >
-   <tr> 
-   <td colspan="3">
-  <table class="Casebleu4"  style="border: 0px; margin:0 ; padding:0px;" >
- <!--    en tête pour l'administrateur -->
+<jsp:useBean id="laDate" class="utile.DateBean" scope="session" />
+<% 
+String nom= (String)session.getAttribute("nom");
+String dateDemande = laDate.getJour() + "/" + laDate.getMois() + "/" + laDate.getAnnee(); 
+%>
 
- </table>	
- </td>
-</tr>
+ <table  class="Casebleu" style="border: 0px; margin:0 ; padding:0px; width:800;" >
+   
+ <!--    en tête pour l'administrateur -->  
+	<tr>
+		<td>
+			<h2>Gestion des fiches Citoyennes</h2> 
+		</td>
+		<td>
+			<button  name ="deconnexion" onClick="self.location.href='deconnection.jsp'" type="button"  value="se connecter" style="width: 120px"> Se déconnecter </button>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h2> Personne connectée : <%= nom %>  &nbsp;&nbsp; </h2>
+		</td>
+		<td>
+			<h2> Date courante:  <%=dateDemande%> </h2>
+		</td>
+	</tr>
+
 </table>
